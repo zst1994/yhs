@@ -31,6 +31,10 @@ function httpRequest(obj) {
       var networkType = res.networkType;
       // console.log(networkType)
       if (networkType != 'none') {
+        wx.showLoading({
+          title: '正在加载中...',
+        })
+        
         wx.request({
           url: (obj.server ? obj.server : server) + obj.url,
           method: obj.method ? obj.method : 'GET',
