@@ -1,0 +1,148 @@
+<view class="menu-box">
+  <navigator class="shop-address" url="/pages/showShops/showShops" hover-class="none">
+    <view class="address">
+      <text>{{shopsInfo[shopsIndex].name}}</text>
+      <image src="/images/fanhui.png"></image>
+    </view>
+    <text catchtap="shopMess">门店信息</text>
+  </navigator>
+  <swiper class="swiper" current="{{current}}">
+    <swiper-item class="swiper-item">
+      <view class="product-list">
+        <scroll-view class="product-type" scroll-y>
+          <block wx:for="{{genres}}" wx:key="*this">
+            <view class="type-name {{checkIndex == item[0] ? 'on' : ''}}" data-idx="{{item[0]}}"
+              catchtap="tapTypeIndex">{{item[1]}}</view>
+          </block>
+        </scroll-view>
+        <scroll-view class="product" scroll-y>
+          <block wx:for="{{products}}" wx:key="*this">
+            <view class="product-shopBox" catchtap="showProduct" data-idx="{{index}}">
+              <image src="{{item.image}}" class="shopBox-img"></image>
+              <view class="shopBox-info">
+                <text class="shopBox-info-title">{{item.title}}</text>
+                <text class="shopBox-info-sales">月售{{item.sales}}</text>
+                <view class="add-shop">
+                  <text class="add-shop-price">￥{{item.price}}</text>
+                  <view wx:if="{{item.specs}}" class="check-limit" catchtap="checkLimit" data-idx="{{index}}">
+                    选规格
+                    <view wx:if="{{item.addNum > 0}}" class="right-top">{{item.addNum}}</view>
+                  </view>
+                  <view wx:else class="add-lower">
+                    <view wx:if="{{item.addNum > 0}}" class="lower">
+                      <image src="/images/lower.png" class="lower-icon" catchtap="lower" data-idx="{{index}}"></image>
+                      <text>{{item.addNum}}</text>
+                    </view>
+                    <view class="add-icon" catchtap="add" data-idx="{{index}}">
+                      <image src="/images/add.png"></image>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </scroll-view>
+      </view>
+      <view class="total-price">
+        <view class="price" catchtap="{{allNum > 0 ? 'showAddProductList' : ''}}" data-showaddproduct="{{true}}">
+          <text>￥{{allPrice}}</text>
+          <text space="nbsp" decode>共&nbsp;{{allNum}}&nbsp;份</text>
+        </view>
+        <view class="price-start {{allPrice >= shop.deliver_fee_up ? 'on' : '' }}"
+          catchtap="{{allPrice >= shop.deliver_fee_up ? 'placeOrder' : '' }}">
+          {{allPrice >= shop.deliver_fee_up ? '下单' : '￥' + deliver_fee_up + '起送'}}</view>
+      </view>
+    </swiper-item>
+    <swiper-item>
+      <view class="shop-info">
+        <view class="shop-info-left">
+          <image src="/images/shop.png"></image>
+          <text>名称</text>
+        </view>
+        <text class="shop-info-right">{{shop.name}}</text>
+      </view>
+      <view class="shop-info">
+        <view class="shop-info-left">
+          <image src="/images/people.png"></image>
+          <text>联系人</text>
+        </view>
+        <text class="shop-info-right">{{shop.contact}}</text>
+      </view>
+      <view class="shop-info">
+        <view class="shop-info-left">
+          <image src="/images/phone.png"></image>
+          <text>电话</text>
+        </view>
+        <text class="shop-info-right">{{shop.phone}}</text>
+      </view>
+      <view class="shop-info">
+        <view class="shop-info-left">
+          <image src="/images/address.png"></image>
+          <text>地址</text>
+        </view>
+        <text class="shop-info-right">{{shop.address}}</text>
+      </view>
+    </swiper-item>
+  </swiper>
+</view>
+
+<dialog id="dialog" bind:dialogStatus="hiden_dialog">
+  <block wx:if="{{hasSpecs.specs.length}}">
+    <view class="specs-box">
+      <view class="specs-title">{{hasSpecs.title}}</view>
+      <view class="specs-body">
+        <text>规格：</text>
+        <view class="specs-body-limit">
+          <view wx:for="{{hasSpecs.specs}}" class="limit {{hasSpecs.price == item.price ? 'on' : ''}}" wx:key="*this"
+            catchtap="{{hasSpecs.addNum > 0 ? '' : 'specsLimit'}}" data-price="{{item.price}}">
+            {{item.title}}
+          </view>
+        </view>
+      </view>
+      <view class="specs-box-shop">
+        <text class="add-shop-price">￥{{hasSpecs.price}}</text>
+        <view class="add-lower">
+          <view wx:if="{{hasSpecs.addNum > 0}}" class="lower">
+            <image src="/images/lower.png" class="lower-icon" catchtap="lower" data-showspecs="{{true}}"></image>
+            <text>{{hasSpecs.addNum}}</text>
+          </view>
+          <view class="add-icon" catchtap="add" data-showspecs="{{true}}">
+            <image src="/images/add.png"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{showaddproduct && allNum > 0}}">
+    <view class="shopping-cart">
+      <view class="clean-product-list" catchtap="cleanProductList">清空列表</view>
+      <block wx:for="{{products}}" wx:key="*this">
+        <block wx:if="{{item.addNum > 0}}">
+          <view class="shopping-box">
+            <text class="shopping-title">{{item.title}}</text>
+            <text class="shopping-price">￥{{item.price * item.addNum}}</text>
+            <view class="add-lower shopping-add-lower">
+              <view wx:if="{{item.addNum > 0}}" class="lower">
+                <image src="/images/lower.png" class="lower-icon" catchtap="lower" data-idx="{{index}}"></image>
+                <text>{{item.addNum}}</text>
+              </view>
+              <view class="add-icon" catchtap="add" data-idx="{{index}}">
+                <image src="/images/add.png"></image>
+              </view>
+            </view>
+          </view>
+        </block>
+      </block>
+    </view>
+  </block>
+  <view wx:elif="{{showIndex >= 0}}">
+    <view class="show-product">
+      <image src="{{products[showIndex].image}}" catchtap="previewImage"></image>
+      <view class="show-product-info">
+        <text>{{products[showIndex].title}}</text>
+        <text class="show-product-price">￥{{products[showIndex].price}}</text>
+        <text>{{products[showIndex].intro}}</text>
+      </view>
+    </view>
+  </view>
+</dialog>

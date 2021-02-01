@@ -1,0 +1,23 @@
+/*模态框*/
+.modals-cancel {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bottom-dialog-body {
+  position: fixed;
+  z-index: 10001;
+  left: 0;
+  bottom: 0;
+  transform: translateY(100%);
+  -webkit-transform: translateY(100%);
+  width: 100%;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 20rpx 20rpx 0 0;
+}
