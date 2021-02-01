@@ -169,6 +169,7 @@ Page({
 
   tapTypeIndex(e) {
     var idx = e.currentTarget.dataset.idx;
+    this.getShopProductList(idx);
     this.setData({
       checkIndex: idx
     })
@@ -209,21 +210,35 @@ Page({
         var genres = res.genres;
         var products = res.products;
         var shop = res.shop;
-        products.forEach((e) => {
-          e["price"] = parseFloat(e.price).toFixed(2);
-          e["addNum"] = 0;
-        })
 
-        shop["deliver_fee_up"] = parseFloat(parseFloat(shop.deliver_fee_up).toFixed(2));
+        if (products.length > 0) {
+          products.forEach((e) => {
+            e["price"] = parseFloat(e.price).toFixed(2);
+            e["addNum"] = 0;
+          })
 
-        this.setData({
-          genres,
-          products,
-          shop,
-          checkIndex: genre[0],
-          deliver_fee_up: (shop.deliver_fee_up - this.data.allPrice).toFixed(2)
-        })
-        console.log(res);
+          shop["deliver_fee_up"] = parseFloat(parseFloat(shop.deliver_fee_up).toFixed(2));
+
+          this.setData({
+            genres,
+            products,
+            shop,
+            checkIndex: genre[0],
+            deliver_fee_up: (shop.deliver_fee_up - this.data.allPrice).toFixed(2)
+          })
+        } else {
+          wx.showToast({
+            title: '门店暂无商品',
+            icon: 'none',
+            success: () => {
+              this.setData({
+                genres,
+                products,
+                shop,
+              })
+            }
+          })
+        }
       },
       fail: (error) => {
         app.toast('请求失败，请稍后重试');
@@ -235,6 +250,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (options.idx) {
+      this.setData({
+        shopsIndex: options.idx
+      })
+    }
     this.getShops();
     this.dialog = this.selectComponent("#dialog");
   },

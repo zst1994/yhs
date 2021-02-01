@@ -1,2 +1,33 @@
-<!--pages/showShops/showShops.wxml-->
-<text>pages/showShops/showShops.wxml</text>
+<view class="shops-box">
+  <view class="search">
+    <view class="search-shops">
+      <image src="/images/search.png" class="search-shops-icon"></image>
+      <input type="text" placeholder="搜索店铺" placeholder-class="search-shops-placeholder" bindblur="searchBlur"/>
+    </view>
+    <view class="search-btn">搜索</view>
+  </view>
+  <view class="shops-list">
+    <view class="shops-list-title">
+      <text class="shops-list-title-left">门店列表</text>
+      <text class="shops-list-title-right">点击对应门店下单</text>
+    </view>
+    <scroll-view scroll-y class="shops-list-body">
+      <block wx:for="{{shopsInfo}}" wx:key="*this">
+        <view class="shop-mess" catchtap="checkShop" data-idx="{{index}}">
+          <view class="shop-mess-left">
+            <view class="shop-mess-top">
+              <image src="/images/g-shop.png" class="shop-icon"></image>
+              <text>{{item.name}}</text>
+            </view>
+            <view class="shop-mess-bottom">
+              <image src="/images/address.png" class="shop-icon"></image>
+              <text>{{item.address}}</text>
+            </view>
+          </view>
+          <view class="shop-mess-right">{{item.distance}}</view>
+        </view>
+      </block>
+      <text class="warn-text">已加载所有数据</text>
+    </scroll-view>
+  </view>
+</view>
