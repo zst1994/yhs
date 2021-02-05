@@ -211,7 +211,7 @@ Page({
         var products = res.products;
         var shop = res.shop;
 
-        if (products.length > 0) {
+        if (genres.length > 0) {
           products.forEach((e) => {
             e["price"] = parseFloat(e.price).toFixed(2);
             e["addNum"] = 0;

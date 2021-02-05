@@ -36,7 +36,10 @@
     "userConfirmedUseCompilerModuleSwitch": false,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
-    "packNpmRelationList": [],
+    "packNpmRelationList": [{
+      "packageJsonPath": "./package.json",
+      "miniprogramNpmDistDir": "./miniprogram/"
+    }],
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
@@ -59,13 +62,11 @@
       "list": []
     },
     "miniprogram": {
-      "list": [
-        {
-          "name": "pages/showShops/showShops",
-          "pathName": "pages/showShops/showShops",
-          "scene": null
-        }
-      ]
+      "list": [{
+        "name": "pages/showShops/showShops",
+        "pathName": "pages/showShops/showShops",
+        "scene": null
+      }]
     }
   }
 }

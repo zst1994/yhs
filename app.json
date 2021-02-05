@@ -32,7 +32,6 @@
       "selectedIconPath": "images/my_check.png"
     }]
   },
-  "style": "v2",
   "sitemapLocation": "sitemap.json",
   "permission": {
     "scope.userLocation": {
